@@ -11,4 +11,14 @@ input {
 
 label {
   display: block;
+  margin-bottom: 10px; 
+}
+
+button {
+  text-align: center;
+  margin: 0 10px 0 0;
+  font-size: 2rem;
+  border: none;
+  border-radius: 5px;
+  background: transparent;
 }
