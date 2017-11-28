@@ -2,6 +2,38 @@ import React, { Component } from 'react';
 import TodoItem from './components/TodoItem';
 import './App.css';
 
+function changeDescriptionOfItemAtIndex(currentItems, index, newDescription) {
+  const newItems = currentItems.map((item, currentIndex) => {
+    if (currentIndex === index) {
+      return {
+        ...item, 
+        description: newDescription
+      }
+    }
+    else {
+      return item
+    }
+  })
+  return newItems
+}
+
+
+function toggleItemAtIndex(beforeItems, index) {
+  const afterItems = beforeItems.map((item, currentIndex) => {
+    // When found index of item to change
+    if (currentIndex === index) {
+      return {
+        ...item, 
+        completed: !item.completed
+      }
+    }
+    else {
+      return item
+    }
+  })
+  return afterItems
+}
+
 class App extends Component {
   // Data
   state = {
@@ -12,27 +44,39 @@ class App extends Component {
       { description: 'Fourth', completed: true}
     ]
   }
-  
+
+  onChangeItemDescriptionAtIndex = (index, description) => {
+    // Get item
+    // Get form input
+    // update item.descrption = forminput
+
+    // Get items
+    this.setState((currentState) => {
+      const currentItems = currentState.items
+      
+      const newItems = changeDescriptionOfItemAtIndex(currentItems, index, description)
+
+      // Update the `items` in this.state
+      return {
+        items: newItems
+      }
+    })
+  }
+
   onToggleItemAtIndex = (index) => {
     this.setState((prevState) => {
       // Get items
       const beforeItems = prevState.items
 
-      const afterItems = beforeItems.map((item, currentIndex) => {
-        // When found index of item to change
-        if (currentIndex === index) {
-          return {
-            ...item, 
-            completed: !item.completed
-          }
-        }
-        else {
-          return item
-        }
-      })
+      const afterItems = toggleItemAtIndex(beforeItems, index)
+
       return {
         items: afterItems
       }
+      
+      // return {
+      //   items: toggleItemAtIndex(prevState.items, index)
+      // }
     })
   }
 
@@ -81,6 +125,12 @@ class App extends Component {
                       this.onToggleItemAtIndex(index)
                     }
                   }
+                  onEditDescription={
+                    (newDescription) => {
+                      console.log('desc updated to', item.description)
+                      this.onChangeItemDescriptionAtIndex(index, newDescription)
+                    }
+                  }
                 />
               )
             }
@@ -102,6 +152,12 @@ class App extends Component {
                     () => {
                       console.log('TodoItem onToggleCompleted recieved', index)
                       this.onToggleItemAtIndex(index)
+                    }
+                  }
+                  onEditDescription={
+                    () => {
+                      console.log('desc update')
+                      this.onChangeItemDescriptionAtIndex(index, item.description)
                     }
                   }
                 />

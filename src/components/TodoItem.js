@@ -3,7 +3,8 @@ import React from 'react'
 function TodoItem ({
   description,
   completed = false, // If not passed, default to false
-  onToggleCompleted
+  onToggleCompleted,
+  onEditDescription
 }) {
   let status
 
@@ -27,6 +28,15 @@ function TodoItem ({
         { status }
       </button> 
       { description }
+      <input 
+        type="text" 
+        value = { description }
+        onChange={
+          (event) => {
+            onEditDescription(event.target.value)
+          }
+        }
+      />
     </label>
     
     </div>
